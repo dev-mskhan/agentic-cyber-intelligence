@@ -1,0 +1,6 @@
+{
+  "name": "Cyber Intelligence Platform",
+  "description": "An agentic AI-powered cybersecurity intelligence platform that scans for relevant threats, matches CVEs, and produces executive security reports.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
