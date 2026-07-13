@@ -9,6 +9,7 @@ import errorHandler from "./middlewares/errorHandler.js";
 import ApiError from "./utils/apiError.js";
 import appRouter from "./routes.js";
 import webhookRoutes from "./routes/webhook.routes.js";
+import type { Request, Response, NextFunction } from "express";
 
 const app = express();
 
@@ -47,7 +48,7 @@ app.use(
 );
 
 // --- health check (for uptime monitors / load balancers) ---
-app.get("/health", (_req, res) => {
+app.get("/health", (_req: Request, res: Response) => {
   res.status(200).json({ status: "ok", timestamp: new Date().toISOString() });
 });
 
@@ -55,7 +56,7 @@ app.get("/health", (_req, res) => {
 app.use("/api/v1", appRouter);
 
 // --- 404 handler for unmatched routes ---
-app.use((req, _res, next) => {
+app.use((req: Request, _res: Response, next: NextFunction) => {
   next(new ApiError(404, `Route ${req.method} ${req.originalUrl} not found`));
 });
 
