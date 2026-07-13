@@ -35,14 +35,14 @@ app.use(cookieParser(env.cookieSecret)); // needed for req.signedCookies used in
 app.use(
   pinoHttp({
     logger,
-    customLogLevel: (req, res, err) => {
+    customLogLevel: (req: Request, res: Response, err: Error | undefined) => {
       if (err || res.statusCode >= 500) return "silent"; // errorHandler logs these
       if (res.statusCode >= 400) return "warn";
       return "info";
     },
     serializers: {
-      req: (req) => ({ method: req.method, url: req.url, id: req.id }),
-      res: (res) => ({ statusCode: res.statusCode }),
+      req: (req: Request) => ({ method: req.method, url: req.url, id: req.id }),
+      res: (res: Response) => ({ statusCode: res.statusCode }),
     },
   }),
 );
