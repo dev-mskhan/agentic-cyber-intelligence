@@ -6,31 +6,31 @@ import redisConnection from "../config/redis.js";
 import type { JwtPayload } from "../utils/generateToken.js";
 
 export const startRun = asyncHandler(async (req: Request, res: Response) => {
-  const organizationId = req.organizationId as string;
-  const userId = (req.user as JwtPayload).id;
+  const organizationId = (req as any).organizationId as string;
+  const userId = ((req as any).user as JwtPayload).id;
   const run = await runService.startManualRun(organizationId, userId);
   res.status(201).json(new ApiResponse(201, run, "Run started"));
 });
 
 export const stopRun = asyncHandler(async (req: Request, res: Response) => {
-  const organizationId = req.organizationId as string;
+  const organizationId = (req as any).organizationId as string;
   const run = await runService.stopRun(organizationId, req.params.id as string);
   res.json(new ApiResponse(200, run, "Run stopped"));
 });
 
 export const listRuns = asyncHandler(async (req: Request, res: Response) => {
-  const runs = await runService.list(req.organizationId as string);
+  const runs = await runService.list((req as any).organizationId as string);
   res.json(new ApiResponse(200, runs, "Runs fetched"));
 });
 
 export const getRun = asyncHandler(async (req: Request, res: Response) => {
-  const run = await runService.getById(req.organizationId as string, req.params.id as string);
+  const run = await runService.getById((req as any).organizationId as string, req.params.id as string);
   res.json(new ApiResponse(200, run, "Run fetched"));
 });
 
 // Server-Sent Events — live run status via Redis pub/sub, published by the worker
 export const streamRunStatus = asyncHandler(async (req: Request, res: Response) => {
-  const organizationId = req.organizationId as string;
+  const organizationId = (req as any).organizationId as string;
   const runId = req.params.id as string;
 
   // confirm the run belongs to this org before subscribing

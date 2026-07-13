@@ -6,7 +6,7 @@ import { mitigationRepository } from "../repositories/mitigation.repository.js";
 import { emitToOrg, EVENTS } from "../events/eventBus.js";
 
 export const toggleMitigation = asyncHandler(async (req: Request, res: Response) => {
-  const organizationId = req.organizationId as string;
+  const organizationId = (req as any).organizationId as string;
   const updated = await mitigationRepository.toggleCompleted(
     req.params.id as string,
     organizationId,
