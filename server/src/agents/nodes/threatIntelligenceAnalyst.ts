@@ -31,7 +31,7 @@ function normalizeCategory(raw: string): (typeof THREAT_CATEGORIES)[number] {
 export async function threatIntelligenceAnalystNode(state: GraphStateType): Promise<Partial<GraphStateType>> {
   await updateRunStage(state.runId, "threat_intelligence");
   const industry = state.organization.industry ?? "technology";
-  const productNames = [...new Set(state.technologyInventory.map((t) => t.product))];
+  const productNames = [...new Set(state.technologyInventory.map((t: any) => t.product))];
   try {
     const [exaResults, otxResults] = await Promise.all([
       searchExa(`latest cybersecurity threats targeting ${industry} industry`, { numResults: 8 }),
